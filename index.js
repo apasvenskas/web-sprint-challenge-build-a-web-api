@@ -8,18 +8,18 @@ server.use(express.json());
 const users = [
     {
         id: 1,
-        name: 'Ailice',
-        bio: 'alice@example.com'
+        name: 'Alice',
+        bio: 'An andevtures girl'
     },
     {
         id: 2,
         name: 'Bob',
-        bio: 'alice@example.com'
+        bio: 'An adventures boy'
     }
 ]
 
 const generateId = () => {
-    return users.length ? Math.max(...users.map(user => user.id)) + 1 : 1;
+    return users.length ? Math.max(...users.map(user => user.id)) + 1 : 0;
 }
 
 server.get('/', (req, res) => {
@@ -42,7 +42,7 @@ server.get('/hobbits', (req, res) => {
 
 server.post('/api/users', (req, res) => {
     const user = req.body;
-    if(!user.name || user.bio){
+    if(!user.name || !user.bio){
         res.status(400).json({message: 'Please provide name and bio for the user.'})
     } else {
         user.id = generateId();
@@ -53,7 +53,7 @@ server.post('/api/users', (req, res) => {
 
 server.get('/api/users/:id', (req, res) => {
     const id = parseInt(req.params.id);
-    const user = user.find(user => user.id === id);
+    const user = users.find(user => user.id === id);
     if (user){
         res.status(200).json(user);
     } else {
@@ -75,7 +75,7 @@ server.delete('/api/users/:id', (req, res) => {
 server.put('/api/users/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const updatedUser = req.body;
-    if(!updatedUser.name || !update.bio){
+    if(!updatedUser.name || !updatedUser.bio){ 
         res.status(400).json({message: 'Please provide name and bio for the user.'})
     } else {
         const index = users.findIndex(user => user.id === id);
