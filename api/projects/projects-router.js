@@ -12,8 +12,9 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
     try{
-        const project = await get();
-       res.status(200).json(projects.length ? projects : []);
+        const projects = await get();
+    //    res.status(200).json(projects.length ? projects : []);
+        res.json(projects)
     } catch (err) {
         next(err);
     }
@@ -54,13 +55,13 @@ router.post('/', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
     try {
-        const {name, description} = req.body;
-        if (!name || !description) {
+        const {name, description, completed} = req.body;
+        if (!name || !description || completed === undefined) {
             return res.status(400).json({
                 message: 'Missing required fields'
             });
         }
-        const updatedProject = await update(req.params.id, {name, description});
+        const updatedProject = await update(req.params.id, {name, description, completed});
         if(!updatedProject){
             return res.status(404).json({
                 message: 'Project not found',
