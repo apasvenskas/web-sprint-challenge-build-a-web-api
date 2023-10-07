@@ -13,17 +13,18 @@ I need this code, but don't know where, perhaps should make some middleware, don
 Pull your server into this file and start it!
 */
 
-const express = require('express');
+// const express = require('express');
 
-const app = express();
+// const server = express();
 
-const projectRouter = require('./api/projects/projects-router');
+// const projectRouter = require('./api/projects/projects-router');
 
-app.use('/api/projects', projectRouter);
+// app.use('/api/projects', projectRouter);
+
+const server = require('./api/server');
 
 const port = 9000;
-
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server running on port ${port}`);
 })
 

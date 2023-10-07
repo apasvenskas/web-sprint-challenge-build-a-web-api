@@ -12,8 +12,14 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
     try{
-        const projects = await get();
-        res.json(projects);
+        const project = await get(req.params.id);
+        // res.status(200).json(project.length ? projects : [])
+        if(!project){
+            return res.status(404).json({
+                message: "Project not found",
+            })
+        }
+        res.json(project)
     } catch (err) {
         next(err);
     }
