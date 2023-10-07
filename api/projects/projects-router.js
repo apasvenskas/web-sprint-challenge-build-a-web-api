@@ -89,12 +89,13 @@ router.delete('/:id', async (req, res, next) => {
 
 router.get('/:id/actions', async (req, res, next) => {
     try {
-        const actions = await getProjectActions(req.params.id);
-        if(!actions.length){
-            return remove.status(404).json({
+        const project = await get(req.params.id);
+        if(!project){
+            return res.status(404).json({
                 message: 'Project not found',
             })
         }
+        const actions = await getProjectActions(req.params.id);
         res.json(actions);
     } catch (err){
         next(err);
